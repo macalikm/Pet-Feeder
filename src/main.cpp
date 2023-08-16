@@ -14,7 +14,7 @@ Adafruit_StepperMotor *myMotor = AFMS.getStepper(200, 2);
 const unsigned long SECOND = 1000;
 const unsigned long MINUTE = 60*SECOND;
 const unsigned long HOUR = 3600*SECOND;
-const unsigned long REVOLUTION = 200;
+const unsigned long REVOLUTION = 202;
 
 void DoubleCoil(int);
 void AlertCats();
@@ -33,7 +33,7 @@ void setup()
     while (1);
   }
   Serial.println("Motor Shield found.");
-  myMotor->setSpeed(50);  // 50 rpm
+  myMotor->setSpeed(10);  // 50 rpm
 }
 
 void loop() {
@@ -42,14 +42,15 @@ void loop() {
   
   myMotor->release();
   Serial.println("Waiting...");
-  delay(1*MINUTE);
+  //delay(1*HOUR);
+  delay(3600*SECOND);
 }
 
 void DoubleCoil(int x)
 {
   Serial.print("Vending ");
   Serial.print(x);
-  Serial.println(" Cat Food");
+  Serial.println(" Dose of Cat Food.");
   for (int i=0;i < x; i++) {
   myMotor->step(REVOLUTION, FORWARD, DOUBLE);
   //  myMotor->step(100, BACKWARD, DOUBLE);
@@ -58,7 +59,12 @@ void DoubleCoil(int x)
 
 void AlertCats()
 {
-  Serial.println("Alert Cats. ");
-  tone(buzzer, 10000, 500);
-  noTone(buzzer);
+  Serial.println("Alert Cats! ");
+  for (int i=0; i < 3; i++)
+  {
+    tone(buzzer, 5000);
+    delay(400);
+    noTone(buzzer);
+    delay(100);
+  }
 }
