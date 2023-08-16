@@ -16,13 +16,13 @@ const unsigned long MINUTE = 60*SECOND;
 const unsigned long HOUR = 3600*SECOND;
 const unsigned long REVOLUTION = 200;
 
-void SingleCoil();
-void DoubleCoil();
-void InterleavedCoil();
-void MicrostepCoil();
+void DoubleCoil(int);
+void AlertCats();
+#define buzzer 13
 
 void setup() 
 {
+  pinMode(buzzer, OUTPUT);
   Serial.begin(9600);           // set up Serial library at 9600 bps
   while (!Serial);
   Serial.println("Stepper test!");
@@ -37,42 +37,28 @@ void setup()
 }
 
 void loop() {
-  
-//  SingleCoil();
-  DoubleCoil();
-//  InterleavedCoil();
-//  MicrostepCoil();
+  AlertCats();
+  DoubleCoil(1);
   
   myMotor->release();
-  delay(15*MINUTE);
+  Serial.println("Waiting...");
+  delay(1*MINUTE);
 }
 
-void SingleCoil()
+void DoubleCoil(int x)
 {
-  Serial.println("Single coil steps");
-  myMotor->step(REVOLUTION, FORWARD, SINGLE);
-  myMotor->step(REVOLUTION, BACKWARD, SINGLE);
-}
-
-void InterleavedCoil()
-{
-  Serial.println("Interleave coil steps");
-  myMotor->step(100, FORWARD, INTERLEAVE);
-  myMotor->step(100, BACKWARD, INTERLEAVE);
-}
-
-void DoubleCoil()
-{
-  Serial.println("Double coil steps");
-  for (int i=0;i < 5; i++) {
+  Serial.print("Vending ");
+  Serial.print(x);
+  Serial.println(" Cat Food");
+  for (int i=0;i < x; i++) {
   myMotor->step(REVOLUTION, FORWARD, DOUBLE);
   //  myMotor->step(100, BACKWARD, DOUBLE);
   }
 }
 
-void MicrostepCoil()
+void AlertCats()
 {
-  Serial.println("Microstep steps");
-  myMotor->step(50, FORWARD, MICROSTEP);
-  myMotor->step(50, BACKWARD, MICROSTEP);
+  Serial.println("Alert Cats. ");
+  tone(buzzer, 10000, 500);
+  noTone(buzzer);
 }
