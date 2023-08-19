@@ -50,7 +50,11 @@ void DoubleCoil(int x)
 {
   Serial.print("Vending ");
   Serial.print(x);
-  Serial.println(" Dose of Cat Food.");
+  if ( int x = 1)
+  {Serial.println(" Dose of Cat Food.");}
+  else
+  {Serial.println(" Doses of Cat Food.");}
+  
   for (int i=0;i < x; i++) {
   myMotor->step(REVOLUTION, FORWARD, DOUBLE);
   //  myMotor->step(100, BACKWARD, DOUBLE);
